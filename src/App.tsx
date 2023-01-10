@@ -1,11 +1,10 @@
 import React from 'react';
+import Home from "./components/Home/Home";
 
 function App() {
   return (
     <main>
-        <section>
-            <h1>APP</h1>
-        </section>
+        <Home/>
     </main>
   );
 }
