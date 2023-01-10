@@ -1,3 +1,5 @@
+import "./socketel.css";
+
 function SocketEl() {
     return (
         <div className="socket">

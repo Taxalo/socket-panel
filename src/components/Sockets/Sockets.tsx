@@ -3,7 +3,7 @@ import "./sockets.css";
 function Sockets() {
     return (
         <section id="sockets">
-            <h1>SECTIONS</h1>
+            <h1>SOCKETS</h1>
         </section>
     )
 }
