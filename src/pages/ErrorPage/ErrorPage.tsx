@@ -1,7 +1,7 @@
 import "./errorpage.css";
 import {useRouteError, Link} from "react-router-dom";
 import {Card, Group, Button, Image, Text, Title} from "@mantine/core";
-import errorRaccoon from "../imgs/error_raccoon.png";
+import errorRaccoon from "../../imgs/error_raccoon.png";
 
 function ErrorPage() {
     const error: any = useRouteError();
