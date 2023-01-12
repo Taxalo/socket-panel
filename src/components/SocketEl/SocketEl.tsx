@@ -55,7 +55,7 @@ function SocketEl({name, id}: socketParams) {
             setImage(m);
         });
 
-    }, []);
+    }, [socket]);
 
     return (
         <div className="socket">
@@ -96,9 +96,9 @@ function SocketEl({name, id}: socketParams) {
                 opened={openedPhoto}
                 onClose={managePhotoModal}
                 title={`SOCKET ${name}`}
-            >
-                <Image alt="Captura de pantalla" src={image}/>
-            </Modal>
+                >
+                    <Image alt="Captura de pantalla" src={image}/>
+                </Modal>
             </Modal>
         </div>
     )
