@@ -1,5 +1,5 @@
 import "./socketel.css";
-import {Group, Text, Badge, Button, Modal, TextInput} from "@mantine/core";
+import {Group, Text, Badge, Button, Modal, TextInput, Image} from "@mantine/core";
 import {MdAdsClick} from "react-icons/md";
 import {RiScreenshot2Fill, RiShutDownLine} from "react-icons/ri";
 import {IoSend} from "react-icons/io5";
@@ -14,6 +14,8 @@ type socketParams = {
 
 function SocketEl({name, id}: socketParams) {
     const [opened, setOpened] = useState(false);
+    const [openedPhoto, setOpenedPhoto] = useState(false);
+    const [image, setImage] = useState("");
     const [command, setCommand] = useState("");
     const [randomPlaceholder, setRandomPlaceholder] = useState("");
     const socket: Socket = useContext(SocketContext);
@@ -22,8 +24,13 @@ function SocketEl({name, id}: socketParams) {
         setOpened(!opened);
     }
 
+    const managePhotoModal = () => {
+        setOpenedPhoto(!openedPhoto);
+    }
+
     const takeScreenshot = () => {
         socket.emit("extcomm", `${id} ss`);
+        managePhotoModal();
     }
 
     const shutdown = () => {
@@ -43,6 +50,11 @@ function SocketEl({name, id}: socketParams) {
         const placeholderList = ["start https://www.youtube.com/watch?v=dQw4w9WgXcQ", "kill chrome.exe",
             "start eclipse.exe", "shutdown -s -t 5000"];
         setRandomPlaceholder(placeholderList[Math.floor(Math.random() * placeholderList.length)]);
+
+        socket.on("image", (m) => {
+            setImage(m);
+        });
+
     }, []);
 
     return (
@@ -74,11 +86,19 @@ function SocketEl({name, id}: socketParams) {
                 </div>
 
                 <TextInput variant="filled" name="Comando" placeholder={randomPlaceholder} label={"Comando"} onChange={manageCommand} value={command}/>
+                <Button mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light"
+                        onClick={sendCommand}>Enviar</Button>
 
-                <div className="text-center">
-                    <Button mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light"
-                            onClick={sendCommand}>Enviar</Button>
-                </div>
+                <Modal
+                size="auto"
+                transition="scale"
+                centered
+                opened={openedPhoto}
+                onClose={managePhotoModal}
+                title={`SOCKET ${name}`}
+            >
+                <Image alt="Captura de pantalla" src={image}/>
+            </Modal>
             </Modal>
         </div>
     )
