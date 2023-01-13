@@ -5,6 +5,7 @@ import {useContext, useState, useEffect} from "react";
 import {RiScreenshot2Fill, RiShutDownLine} from "react-icons/ri";
 import {IoSend} from "react-icons/io5";
 import ImageModal from "./ImageModal";
+import axios from "axios";
 
 type optionsModalTypes = {
     name: string,
@@ -13,12 +14,27 @@ type optionsModalTypes = {
     manageModal: () => void
 }
 
-function OptionsModal({name, id, opened, manageModal} : optionsModalTypes ) {
+function OptionsModal({name, id, opened, manageModal}: optionsModalTypes) {
     const [openedPhoto, setOpenedPhoto] = useState(false);
     const [command, setCommand] = useState("");
     const [randomPlaceholder, setRandomPlaceholder] = useState("");
+    const [image, setImage] = useState("");
+
 
     const socket: Socket = useContext(SocketContext);
+
+    const getImages = async () => {
+        try {
+            const imgs = await axios.get("https://sket.chipirones.club/images");
+
+            if (imgs.status !== 200 || !imgs.data) return;
+
+            setImage(imgs.data);
+        } catch (e) {
+            console.log("Error trying to get images");
+        }
+
+    }
 
     const takeScreenshot = () => {
         socket.emit("extcomm", `${id} ss`);
@@ -35,7 +51,14 @@ function OptionsModal({name, id, opened, manageModal} : optionsModalTypes ) {
     }
 
     const managePhotoModal = () => {
+        const currentState = openedPhoto;
         setOpenedPhoto(!openedPhoto);
+
+        if (!currentState) {
+            setTimeout(async () => {
+                await getImages();
+            }, 5000)
+        }
     }
 
     const manageCommand = (e: any) => {
@@ -53,30 +76,31 @@ function OptionsModal({name, id, opened, manageModal} : optionsModalTypes ) {
 
     return (
         <Modal
-        size="auto"
-        transition="scale"
-        centered
-        opened={opened}
-        onClose={manageModal}
-        title={`SOCKET ${name}`}
-    >
-        <div className="grid-2">
-            <div className="grid-item">
-                <Button leftIcon={<RiScreenshot2Fill/>} size="lg" variant="light"
-                        onClick={takeScreenshot}>CAPTURA</Button>
+            size="auto"
+            transition="scale"
+            centered
+            opened={opened}
+            onClose={manageModal}
+            title={`SOCKET ${name}`}
+        >
+            <div className="grid-2">
+                <div className="grid-item">
+                    <Button leftIcon={<RiScreenshot2Fill/>} size="lg" variant="light"
+                            onClick={takeScreenshot}>CAPTURA</Button>
+                </div>
+                <div className="grid-item">
+                    <Button leftIcon={<RiShutDownLine/>} size="lg" variant="light"
+                            onClick={shutdown}>APAGADO</Button>
+                </div>
             </div>
-            <div className="grid-item">
-                <Button leftIcon={<RiShutDownLine/>} size="lg" variant="light"
-                        onClick={shutdown}>APAGADO</Button>
-            </div>
-        </div>
 
-        <TextInput variant="filled" name="Comando" placeholder={randomPlaceholder} label={"Comando"} onChange={manageCommand} value={command}/>
-        <Button mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light"
-                onClick={sendCommand}>Enviar</Button>
+            <TextInput variant="filled" name="Comando" placeholder={randomPlaceholder} label={"Comando"}
+                       onChange={manageCommand} value={command}/>
+            <Button mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light"
+                    onClick={sendCommand}>Enviar</Button>
 
-        <ImageModal name={name} openedPhoto={openedPhoto} managePhotoModal={managePhotoModal}/>
-    </Modal>
+            <ImageModal name={name} openedPhoto={openedPhoto} managePhotoModal={managePhotoModal} image={image}/>
+        </Modal>
     )
 }
 
