@@ -1,4 +1,4 @@
-import {Modal, Image} from "@mantine/core";
+import {Modal, Image, Loader} from "@mantine/core";
 
 type imageModalType = {
     name: string,
@@ -18,7 +18,7 @@ function ImageModal({name, openedPhoto, managePhotoModal, image}: imageModalType
             onClose={managePhotoModal}
             title={`SOCKET ${name}`}
         >
-            {image && <Image key={image} alt={`Captura de pantalla ${image}`}
+            {image === "" ? <div className="text-center"><Loader/></div> : <Image key={image} alt={`Captura de pantalla ${image}`}
                              src={`https://sket.chipirones.club/imgs/${image}`}/>}
         </Modal>
     )

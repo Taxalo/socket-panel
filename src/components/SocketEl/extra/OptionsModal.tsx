@@ -58,6 +58,8 @@ function OptionsModal({name, id, opened, manageModal}: optionsModalTypes) {
             setTimeout(async () => {
                 await getImages();
             }, 5000)
+        } else {
+            setImage("");
         }
     }
 
