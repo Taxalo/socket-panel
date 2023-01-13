@@ -31,7 +31,7 @@ function Sockets() {
             <div className="grid-3">
                 {sockets && sockets.map((s) => {
                     return (
-                        <div className="grid-item">
+                        <div className="grid-item" key={s.id}>
                             <SocketEl name={s.name} id={s.id}/>
                         </div>
                     )
