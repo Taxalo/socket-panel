@@ -17,7 +17,6 @@ function OptionsModal({name, id, opened, manageModal} : optionsModalTypes ) {
     const [openedPhoto, setOpenedPhoto] = useState(false);
     const [command, setCommand] = useState("");
     const [randomPlaceholder, setRandomPlaceholder] = useState("");
-    const [image, setImage] = useState("");
 
     const socket: Socket = useContext(SocketContext);
 
@@ -32,6 +31,7 @@ function OptionsModal({name, id, opened, manageModal} : optionsModalTypes ) {
 
     const sendCommand = () => {
         socket.emit("extcomm", `${id} ${command}`);
+        setCommand("");
     }
 
     const managePhotoModal = () => {
@@ -47,10 +47,6 @@ function OptionsModal({name, id, opened, manageModal} : optionsModalTypes ) {
         const placeholderList = ["start https://www.youtube.com/watch?v=dQw4w9WgXcQ", "kill chrome.exe",
             "start eclipse.exe", "shutdown -s -t 5000"];
         setRandomPlaceholder(placeholderList[Math.floor(Math.random() * placeholderList.length)]);
-
-        socket.on("image", (m) => {
-            setImage(m);
-        });
 
     }, [socket]);
 
@@ -79,7 +75,7 @@ function OptionsModal({name, id, opened, manageModal} : optionsModalTypes ) {
         <Button mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light"
                 onClick={sendCommand}>Enviar</Button>
 
-        <ImageModal name={name} openedPhoto={openedPhoto} managePhotoModal={managePhotoModal} image={image}/>
+        <ImageModal name={name} openedPhoto={openedPhoto} managePhotoModal={managePhotoModal}/>
     </Modal>
     )
 }
