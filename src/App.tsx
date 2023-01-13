@@ -1,13 +1,13 @@
 import React, {useEffect} from "react";
 import {socket, SocketContext} from "./manager/socketManager";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createHashRouter, RouterProvider} from "react-router-dom";
 import Home from "./components/Home/Home";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Sockets from "./components/Sockets/Sockets";
 
 function App() {
 
-    const router = createBrowserRouter([
+    const router = createHashRouter([
         {
             path: "/",
             element: <Home/>,
