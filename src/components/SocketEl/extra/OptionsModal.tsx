@@ -55,9 +55,14 @@ function OptionsModal({name, id, opened, manageModal}: optionsModalTypes) {
         setOpenedPhoto(!openedPhoto);
 
         if (!currentState) {
+            /*
+              * !! No debería existir esto !!
+              * Se tiene que cambiar el cliente para que envíe datos de la foto y poder clasificarlos
+              * GRAVE FALLO DE SEGURIDAD
+             */
             setTimeout(async () => {
                 await getImages();
-            }, 5000)
+            }, 10000);
         } else {
             setImage("");
         }
@@ -96,7 +101,7 @@ function OptionsModal({name, id, opened, manageModal}: optionsModalTypes) {
                 </div>
             </div>
 
-            <TextInput variant="filled" name="Comando" placeholder={randomPlaceholder} label={"Comando"}
+            <TextInput variant="filled" name="Comando" placeholder={randomPlaceholder} label="Comando"
                        onChange={manageCommand} value={command}/>
             <Button mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light"
                     onClick={sendCommand}>Enviar</Button>

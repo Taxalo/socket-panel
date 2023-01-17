@@ -4,20 +4,34 @@ import {createHashRouter, RouterProvider} from "react-router-dom";
 import Home from "./components/Home/Home";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Sockets from "./components/Sockets/Sockets";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
 
     const router = createHashRouter([
         {
             path: "/",
-            element: <Home/>,
+            element:
+                <ProtectedRoute token={localStorage.getItem("userToken") ?? ""}>
+                    <Home/>
+                </ProtectedRoute>,
             errorElement: <ErrorPage/>
         },
         {
             path: "sockets",
-            element: <Sockets/>
+            element:
+                <ProtectedRoute token={localStorage.getItem("userToken") ?? ""}>
+                    <Sockets/>
+                </ProtectedRoute>,
+            errorElement: <ErrorPage/>
+        },
+        {
+            path: "login",
+            element: <LoginPage/>,
+            errorElement: <ErrorPage/>
         }
-    ])
+    ]);
 
     useEffect(() => {
         socket.on("join", (msg) => {
