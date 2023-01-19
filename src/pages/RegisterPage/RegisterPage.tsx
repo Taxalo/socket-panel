@@ -1,28 +1,31 @@
-import "./loginpage.css";
+import "./registerpage.css";
 import {useForm} from '@mantine/form';
 import {Button, PasswordInput, TextInput} from "@mantine/core";
 import {IoSend} from "react-icons/io5";
 import axios from "axios";
-import {Navigate} from "react-router-dom";
 import {AuthStatus} from "../../hooks/Auth";
+import {Navigate} from "react-router-dom";
 const {apiUrl} = require("../../config.json");
 
-
-function LoginPage() {
+function RegisterPage() {
     const {loggedIn, checkingStatus} = AuthStatus();
+
     const form = useForm({
         initialValues: {
             user: '',
             password: '',
+            password2: ''
         },
     });
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        if (form.values.user.length === 0 || form.values.password.length === 0) return;
+
+        if (form.values.user.length === 0 || form.values.password.length === 0 || form.values.password2.length === 0
+            || form.values.password !== form.values.password2) return;
 
         try {
-            const registerPost = await axios.post(`${apiUrl}/login`, {
+            const registerPost = await axios.post(`${apiUrl}/register`, {
                 user: form.values.user,
                 password: form.values.password
             });
@@ -30,6 +33,7 @@ function LoginPage() {
             form.setValues({
                 user: '',
                 password: '',
+                password2: ''
             });
 
             if (registerPost.status === 200 && registerPost.data && registerPost.data.token) {
@@ -46,9 +50,9 @@ function LoginPage() {
     if (checkingStatus) return null;
 
     return loggedIn ? <Navigate to={"/"}/> : (
-        <section id="login">
-            <div className="login-container">
-                <h1>LOGIN</h1>
+        <section id="register">
+            <div className="regiter-container">
+                <h1>Register</h1>
                 <form onSubmit={handleSubmit}>
                     <TextInput withAsterisk
                                variant="filled"
@@ -64,6 +68,13 @@ function LoginPage() {
                         label="Password"
                         {...form.getInputProps('password')}
                     />
+                    <PasswordInput
+                        withAsterisk
+                        variant="filled"
+                        placeholder="Password"
+                        label="Repeat Password"
+                        {...form.getInputProps('password2')}
+                    />
                     <Button type="submit" mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light">Log In</Button>
                 </form>
             </div>
@@ -71,4 +82,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage;
+export default RegisterPage;

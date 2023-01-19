@@ -1,4 +1,5 @@
 import {Modal, Image, Loader} from "@mantine/core";
+const {apiUrl} = require("../../../config.json");
 
 type imageModalType = {
     name: string,
@@ -19,7 +20,7 @@ function ImageModal({name, openedPhoto, managePhotoModal, image}: imageModalType
             title={`SOCKET ${name}`}
         >
             {image === "" ? <div className="text-center"><Loader/></div> : <Image key={image} alt={`Captura de pantalla ${image}`}
-                             src={`https://sket.chipirones.club/imgs/${image}`}/>}
+                             src={`${apiUrl}/imgs/${image}`}/>}
         </Modal>
     )
 }

@@ -6,6 +6,7 @@ import {RiScreenshot2Fill, RiShutDownLine} from "react-icons/ri";
 import {IoSend} from "react-icons/io5";
 import ImageModal from "./ImageModal";
 import axios from "axios";
+const {apiUrl} = require("../../../config.json");
 
 type optionsModalTypes = {
     name: string,
@@ -19,13 +20,15 @@ function OptionsModal({name, id, opened, manageModal}: optionsModalTypes) {
     const [command, setCommand] = useState("");
     const [randomPlaceholder, setRandomPlaceholder] = useState("");
     const [image, setImage] = useState("");
-
-
     const socket: Socket = useContext(SocketContext);
 
     const getImages = async () => {
         try {
-            const imgs = await axios.get("https://sket.chipirones.club/images");
+            const imgs = await axios.get(`${apiUrl}/images`, {
+                headers: {
+                    "Authorization": localStorage.getItem("userToken")
+                }
+            });
 
             if (imgs.status !== 200 || !imgs.data) return;
 

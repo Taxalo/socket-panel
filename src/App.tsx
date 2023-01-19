@@ -6,6 +6,7 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Sockets from "./components/Sockets/Sockets";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 function App() {
 
@@ -30,12 +31,23 @@ function App() {
             path: "login",
             element: <LoginPage/>,
             errorElement: <ErrorPage/>
+        },
+        {
+            path: "register",
+            element: <RegisterPage/>,
+            errorElement: <ErrorPage/>
         }
     ]);
 
     useEffect(() => {
         socket.on("join", (msg) => {
             console.log(msg);
+             if (msg === "SEND COMM") {
+                 if (!localStorage.getItem("userToken")) return;
+                socket.emit("commtoken", {
+                    token: localStorage.getItem("userToken")
+                });
+             }
         });
 
         socket.on("chat", (msg) => {

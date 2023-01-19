@@ -2,6 +2,7 @@ import "./sockets.css";
 import SocketEl from "../SocketEl/SocketEl";
 import {useEffect, useState} from "react";
 import axios from "axios";
+const {apiUrl} = require("../../config.json");
 
 type socketType = {
     id: string,
@@ -12,7 +13,11 @@ function Sockets() {
     const [sockets, setSockets] = useState<socketType[]>();
     const getSockets = async () => {
         try {
-            const skets = await axios.get("https://sket.chipirones.club/sockets")
+            const skets = await axios.get(`${apiUrl}/sockets`, {
+                headers: {
+                    "Authorization": localStorage.getItem("userToken")
+                }
+            });
             if (skets.status !== 200 || !skets.data) return;
 
             setSockets(skets.data);
