@@ -37,7 +37,8 @@ a {
 }
 
 @media (max-width: 1024px) {
-    .grid-3 {
+    .grid-3, .grid-2 {
         grid-template-columns: 1fr;
     }
+
 }
