@@ -6,6 +6,7 @@ import {RiScreenshot2Fill, RiShutDownLine} from "react-icons/ri";
 import {IoSend} from "react-icons/io5";
 import ImageModal from "./ImageModal";
 import axios from "axios";
+
 const {apiUrl} = require("../../../config.json");
 
 type optionsModalTypes = {

@@ -2,6 +2,7 @@ import "./sockets.css";
 import SocketEl from "../SocketEl/SocketEl";
 import {useEffect, useState} from "react";
 import axios from "axios";
+
 const {apiUrl} = require("../../config.json");
 
 type socketType = {
@@ -43,7 +44,6 @@ function Sockets() {
                 })}
             </div>
         </section>
-
     )
 }
 

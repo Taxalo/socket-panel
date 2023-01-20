@@ -5,6 +5,7 @@ import {IoSend} from "react-icons/io5";
 import axios from "axios";
 import {AuthStatus} from "../../hooks/Auth";
 import {Navigate} from "react-router-dom";
+
 const {apiUrl} = require("../../config.json");
 
 function RegisterPage() {
@@ -51,7 +52,7 @@ function RegisterPage() {
 
     return loggedIn ? <Navigate to={"/"}/> : (
         <section id="register">
-            <div className="regiter-container">
+            <div className="register-container">
                 <h1>Register</h1>
                 <form onSubmit={handleSubmit}>
                     <TextInput withAsterisk
@@ -75,7 +76,8 @@ function RegisterPage() {
                         label="Repeat Password"
                         {...form.getInputProps('password2')}
                     />
-                    <Button type="submit" mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light">Log In</Button>
+                    <Button type="submit" mt="lg" fullWidth leftIcon={<IoSend/>} size="md"
+                            variant="light">Register</Button>
                 </form>
             </div>
         </section>

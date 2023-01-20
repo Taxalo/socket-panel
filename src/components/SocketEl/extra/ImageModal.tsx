@@ -1,4 +1,5 @@
 import {Modal, Image, Loader} from "@mantine/core";
+
 const {apiUrl} = require("../../../config.json");
 
 type imageModalType = {
@@ -19,8 +20,9 @@ function ImageModal({name, openedPhoto, managePhotoModal, image}: imageModalType
             onClose={managePhotoModal}
             title={`SOCKET ${name}`}
         >
-            {image === "" ? <div className="text-center"><Loader/></div> : <Image key={image} alt={`Captura de pantalla ${image}`}
-                             src={`${apiUrl}/imgs/${image}`}/>}
+            {image === "" ? <div className="text-center"><Loader/></div> :
+                <Image key={image} alt={`Captura de pantalla ${image}`}
+                       src={`${apiUrl}/imgs/${image}`}/>}
         </Modal>
     )
 }

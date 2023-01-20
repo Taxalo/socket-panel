@@ -5,6 +5,7 @@ import {IoSend} from "react-icons/io5";
 import axios from "axios";
 import {Navigate} from "react-router-dom";
 import {AuthStatus} from "../../hooks/Auth";
+
 const {apiUrl} = require("../../config.json");
 
 
@@ -64,7 +65,8 @@ function LoginPage() {
                         label="Password"
                         {...form.getInputProps('password')}
                     />
-                    <Button type="submit" mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light">Log In</Button>
+                    <Button type="submit" mt="lg" fullWidth leftIcon={<IoSend/>} size="md" variant="light">Log
+                        In</Button>
                 </form>
             </div>
         </section>

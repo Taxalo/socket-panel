@@ -41,17 +41,12 @@ function App() {
 
     useEffect(() => {
         socket.on("join", (msg) => {
-            console.log(msg);
-             if (msg === "SEND COMM") {
-                 if (!localStorage.getItem("userToken")) return;
-                socket.emit("commtoken", {
-                    token: localStorage.getItem("userToken")
-                });
-             }
-        });
+            if (msg !== "SEND COMM" || !localStorage.getItem("userToken")) return;
 
-        socket.on("chat", (msg) => {
-            console.log(msg);
+            socket.emit("commtoken", {
+                token: localStorage.getItem("userToken")
+            });
+
         });
 
         return () => {
