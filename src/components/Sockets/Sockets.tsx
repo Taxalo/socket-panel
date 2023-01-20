@@ -34,16 +34,13 @@ function Sockets() {
     return (
         <section id="sockets">
             <div className="grid-3">
-                <div className="grid-item">
-                    <SocketEl name={"tEST"} id="12472357347t34757347"/>
-                </div>
-{/*                {sockets && sockets.map((s) => {
+                {sockets && sockets.map((s) => {
                     return (
                         <div className="grid-item" key={s.id}>
                             <SocketEl name={s.name} id={s.id}/>
                         </div>
                     )
-                })}*/}
+                })}
             </div>
         </section>
 
